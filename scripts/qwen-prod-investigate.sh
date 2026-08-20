@@ -23,6 +23,7 @@ QWEN_AUTH_TYPE="${QWEN_AUTH_TYPE:-openai}"
 QWEN_MODEL="${QWEN_MODEL:-qwen3.7-plus}"
 QWEN_OPENAI_BASE_URL="${QWEN_OPENAI_BASE_URL:-https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1}"
 QWEN_OPENAI_API_KEY_ENV="${QWEN_OPENAI_API_KEY_ENV:-BAILIAN_TOKEN_PLAN_API_KEY}"
+QWEN_APPROVAL_MODE="${QWEN_APPROVAL_MODE:-auto}"
 
 if [[ "$QWEN_AUTH_TYPE" == "openai" && -z "${OPENAI_API_KEY:-}" ]]; then
   OPENAI_API_KEY="$(
@@ -90,7 +91,11 @@ QWEN_EXCLUDE_TOOLS=(
   computer_use__type_text
   computer_use__zoom
   web_fetch
+  read_mcp_resource
   agent
+  list_agents
+  skill
+  todo_write
   task_stop
   send_message
   record_artifact
@@ -107,7 +112,7 @@ QWEN_ARGS=(
   --openai-base-url "$QWEN_OPENAI_BASE_URL" \
   --mcp-config "$ROOT/.qwen/settings.json" \
   --allowed-mcp-server-names luyun-prod-support \
-  --approval-mode plan \
+  --approval-mode "$QWEN_APPROVAL_MODE" \
   --output-format json \
   --max-tool-calls 25 \
   --max-session-turns 12 \

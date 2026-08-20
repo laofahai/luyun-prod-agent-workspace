@@ -1,6 +1,6 @@
 {
   "tools": {
-    "approvalMode": "plan"
+    "approvalMode": "auto"
   },
   "hooks": {
     "PreToolUse": [

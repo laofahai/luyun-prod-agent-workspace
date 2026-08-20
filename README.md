@@ -49,8 +49,8 @@ OCB/Odoo 核心源码通常在容器镜像内，宿主机没有路径时不挂 `
 ./scripts/qwen-prod-investigate.sh "用户在配载计划页面点击确认时报错：请帮忙只读查原因"
 ```
 
-wrapper 会在当前工作区运行 `qwen --bare -p`，并把生产只读规则、代码路径、OCA 路径和日志限制注入 prompt。
-默认会拒绝 root 运行，使用 `--approval-mode plan`、JSON 输出和运行预算。Qwen 只做只读代码分析；生产数据和日志只通过 MCP 白名单工具。
+wrapper 会在当前工作区运行 Qwen headless，并把生产只读规则、代码路径、OCA 路径和日志限制注入 prompt。
+默认会拒绝 root 运行，使用 `--approval-mode auto`、工具排除、PreToolUse hook、JSON 输出和运行预算。Qwen 只做只读取证；生产数据和日志只通过 MCP 白名单工具。
 
 项目 MCP 配置写入本地 `.qwen/settings.json`，不提交。它只暴露 support 系列和基础身份工具，不暴露通用 `query/aggregate/describe_model`。
 
