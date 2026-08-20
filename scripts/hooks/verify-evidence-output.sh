@@ -116,7 +116,6 @@ if errors:
     block("最终输出未通过证据契约审查：" + "；".join(errors[:8]))
 else:
     print(json.dumps({
-        "decision": "allow",
         "continue": False,
         "suppressOutput": True,
     }, ensure_ascii=False))

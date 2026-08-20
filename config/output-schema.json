@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "summary",
+    "user_reply",
+    "facts",
+    "next_actions",
+    "evidence",
+    "unknowns",
+    "internal_handoff"
+  ],
+  "properties": {
+    "schema": {
+      "const": "luyun_support_investigation_v1"
+    },
+    "status": {
+      "enum": ["confirmed", "partial", "blocked"]
+    },
+    "summary": {
+      "$ref": "#/$defs/text_with_evidence"
+    },
+    "user_reply": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "evidence", "redaction"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "evidence": {"$ref": "#/$defs/evidence_refs"},
+        "redaction": {"type": "string"}
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "claim", "source"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^F[0-9]+$"},
+          "claim": {"type": "string", "minLength": 1},
+          "source": {"$ref": "#/$defs/evidence_refs"}
+        }
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "owner", "source"],
+        "properties": {
+          "action": {"type": "string", "minLength": 1},
+          "owner": {"enum": ["user", "ops", "implementation", "developer", "admin"]},
+          "source": {"$ref": "#/$defs/evidence_refs"}
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "source", "detail", "sensitive"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^E[0-9]+$"},
+          "type": {
+            "enum": ["user_input", "code", "mcp_data", "mcp_log", "document", "policy"]
+          },
+          "source": {"type": "string", "minLength": 1},
+          "detail": {"type": "string", "minLength": 1},
+          "sensitive": {"type": "boolean"}
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question", "why"],
+        "properties": {
+          "question": {"type": "string", "minLength": 1},
+          "why": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "internal_handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["visibility", "text", "evidence"],
+      "properties": {
+        "visibility": {"enum": ["none", "internal_only"]},
+        "text": {"type": "string"},
+        "evidence": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^E[0-9]+$"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text_with_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "evidence"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "evidence": {"$ref": "#/$defs/evidence_refs"}
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "pattern": "^E[0-9]+$"}
+    }
+  }
+}

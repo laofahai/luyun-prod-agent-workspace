@@ -112,6 +112,7 @@ QWEN_ARGS=(
   --openai-base-url "$QWEN_OPENAI_BASE_URL" \
   --mcp-config "$ROOT/.qwen/settings.json" \
   --allowed-mcp-server-names luyun-prod-support \
+  --json-schema "@$ROOT/config/output-schema.json" \
   --approval-mode "$QWEN_APPROVAL_MODE" \
   --output-format json \
   --max-tool-calls 25 \
