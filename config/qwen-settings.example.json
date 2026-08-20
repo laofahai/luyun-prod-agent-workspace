@@ -2,6 +2,22 @@
   "tools": {
     "approvalMode": "plan"
   },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$QWEN_PROJECT_DIR/scripts/hooks/deny-production-risky-tool.sh",
+            "name": "production-readonly-guard",
+            "description": "Block write, shell, docker, secret, and raw log access in prod investigation workspace",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  },
   "mcp": {
     "allowed": [
       "luyun-prod-support"

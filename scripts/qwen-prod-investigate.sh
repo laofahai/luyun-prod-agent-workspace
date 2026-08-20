@@ -19,7 +19,41 @@ fi
 cd "$ROOT"
 POLICY="$(sed -n '1,260p' "$ROOT/AGENTS.md")"
 
+QWEN_AUTH_TYPE="${QWEN_AUTH_TYPE:-openai}"
+QWEN_MODEL="${QWEN_MODEL:-qwen3.7-plus}"
+QWEN_OPENAI_BASE_URL="${QWEN_OPENAI_BASE_URL:-https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1}"
+QWEN_OPENAI_API_KEY_ENV="${QWEN_OPENAI_API_KEY_ENV:-BAILIAN_TOKEN_PLAN_API_KEY}"
+
+if [[ "$QWEN_AUTH_TYPE" == "openai" && -z "${OPENAI_API_KEY:-}" ]]; then
+  OPENAI_API_KEY="$(
+    python3 - "$QWEN_OPENAI_API_KEY_ENV" <<'PY'
+import json
+import os
+import sys
+
+env_name = sys.argv[1]
+settings = os.path.expanduser("~/.qwen/settings.json")
+try:
+    with open(settings, encoding="utf-8") as handle:
+        data = json.load(handle)
+except FileNotFoundError:
+    data = {}
+value = os.environ.get(env_name) or data.get("env", {}).get(env_name, "")
+print(value)
+PY
+  )"
+  export OPENAI_API_KEY
+fi
+
+if [[ "$QWEN_AUTH_TYPE" == "openai" && -z "${OPENAI_API_KEY:-}" ]]; then
+  echo "缺少 OPENAI_API_KEY，也未能从 ~/.qwen/settings.json 读取 $QWEN_OPENAI_API_KEY_ENV。" >&2
+  exit 2
+fi
+
 qwen --bare \
+  --auth-type "$QWEN_AUTH_TYPE" \
+  --model "$QWEN_MODEL" \
+  --openai-base-url "$QWEN_OPENAI_BASE_URL" \
   --approval-mode plan \
   --output-format json \
   --max-tool-calls 25 \
