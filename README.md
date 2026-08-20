@@ -10,13 +10,23 @@
 /opt/luyun/prod-agent-workspace
 ```
 
-初始化软链接：
+初始化软链接和 Qwen 项目配置：
 
 ```bash
 cd /opt/luyun/prod-agent-workspace
 ./scripts/bootstrap-links.sh
+LUYUN_MCP_BEARER_TOKEN='***' ./scripts/install-qwen-project-config.sh
 ./scripts/check-workspace.sh
 ```
+
+不要用 `root` 运行 Qwen Code。建议在服务器上创建专用低权限用户运行本仓库：
+
+```bash
+# 示例，仅供服务器管理员执行
+useradd --system --create-home --shell /bin/bash luyun-agent
+```
+
+专用用户不得加入 `docker` 组，不配置 `sudo`，只授予读取源码和指定日志的权限。
 
 默认链接目标：
 
@@ -41,15 +51,21 @@ logs                -> /opt/luyun/prod/logs
 ```
 
 wrapper 会在当前工作区运行 `qwen --bare -p`，并把生产只读规则、代码路径、OCA 路径、OCB 路径和日志限制注入 prompt。
+默认会拒绝 root 运行，使用 `--approval-mode plan`、JSON 输出和运行预算。Qwen 只做只读代码分析；生产数据和日志只通过 MCP 白名单工具。
+
+项目 MCP 配置写入本地 `.qwen/settings.json`，不提交。它只暴露 support 系列和基础身份工具，不暴露通用 `query/aggregate/describe_model`。
 
 ## 安全边界
 
 - 不把 `/opt/luyun/prod` 作为 Agent 工作目录。
 - 不读取 `.env*`、key、token、session、history、cache。
+- 不读取生产 app 内的 `.agents/`、`.claude/`、`.codex/`、`.mcp.json`、`AGENTS.md`、`CLAUDE.md`、`superpowers/`。
 - 不执行 SQL。
-- 不执行 ORM 写入。
+- 不执行 ORM 写入；没有 MCP 只读工具时，不让 Agent 自己拼 Odoo shell。
+- 不通过 shell 直接查数据库或整段日志。
 - 不重启容器、不更新模块、不修改文件。
-- 日志只读 `logs/odoo.log` 和 `logs/queue/*.log`。
+- 日志诊断走 MCP `support_diagnose_error`；不让 Agent 直接读日志文件。
+- Agent 可用生产调查账号查后台事实，但普通用户回复必须按用户可见性收敛。
 
 ## 推荐问题模板
 

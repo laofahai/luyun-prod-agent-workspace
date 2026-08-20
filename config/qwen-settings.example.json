@@ -1,0 +1,40 @@
+{
+  "tools": {
+    "approvalMode": "plan"
+  },
+  "mcp": {
+    "allowed": [
+      "luyun-prod-support"
+    ]
+  },
+  "mcpServers": {
+    "luyun-prod-support": {
+      "httpUrl": "http://127.0.0.1:8069/mcp/agent",
+      "headers": {
+        "Authorization": "Bearer ${LUYUN_MCP_BEARER_TOKEN}"
+      },
+      "timeout": 30000,
+      "trust": false,
+      "includeTools": [
+        "whoami",
+        "list_accessible_business_units",
+        "list_skills",
+        "get_skill",
+        "support_search",
+        "support_filter_options",
+        "support_lookup",
+        "support_aggregate",
+        "support_diagnose_error"
+      ],
+      "excludeTools": [
+        "list_queryable_models",
+        "list_presets",
+        "search_filter_options",
+        "describe_model",
+        "query",
+        "aggregate",
+        "run_preset"
+      ]
+    }
+  }
+}
