@@ -44,8 +44,8 @@
   "evidence": [
     {
       "id": "E1",
-      "type": "user_input | code | mcp_data | mcp_log | document | policy",
-      "source": "工具名、文件路径、函数名、日志诊断范围或用户输入字段",
+      "type": "user_input | code | mcp_data | log_file | document | policy",
+      "source": "工具名、文件路径、函数名、日志文件范围或用户输入字段",
       "detail": "短摘要，不贴长源码、长日志或敏感值",
       "sensitive": false
     }
@@ -70,7 +70,7 @@
 - 没有证据的内容只能放进 `unknowns`，不能放进 `summary`、`facts`、`next_actions`。
 - `evidence[].detail` 只写短摘要，不复制长源码、长日志、完整 traceback、密钥、手机号、金额、价格、成本、合同内容。
 - 来自用户输入的内容必须标为 `type=user_input`，不能当作系统事实。
-- 推理链不能当证据。证据只能来自用户输入、代码/文档位置、MCP 数据、MCP 日志诊断或本仓库策略。
+- 推理链不能当证据。证据只能来自用户输入、代码/文档位置、MCP 数据、日志文件或本仓库策略。
 - `user_reply.text` 必须按普通用户可见性收敛；内部数据只放 `internal_handoff`，且 `visibility=internal_only`。
 
 ## 用户端规则

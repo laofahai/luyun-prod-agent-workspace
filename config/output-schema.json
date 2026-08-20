@@ -69,7 +69,7 @@
         "properties": {
           "id": {"type": "string", "pattern": "^E[0-9]+$"},
           "type": {
-            "enum": ["user_input", "code", "mcp_data", "mcp_log", "document", "policy"]
+            "enum": ["user_input", "code", "mcp_data", "log_file", "document", "policy"]
           },
           "source": {"type": "string", "minLength": 1},
           "detail": {"type": "string", "minLength": 1},

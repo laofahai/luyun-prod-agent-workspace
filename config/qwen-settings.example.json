@@ -11,7 +11,7 @@
             "type": "command",
             "command": "$QWEN_PROJECT_DIR/scripts/hooks/deny-production-risky-tool.sh",
             "name": "production-readonly-guard",
-            "description": "Block write, shell, docker, secret, and raw log access in prod investigation workspace",
+            "description": "Allow bounded readonly search, block writes, docker, database shell, secrets, and raw log dumps",
             "timeout": 10000
           }
         ]
@@ -52,8 +52,7 @@
         "support_list_data_capabilities",
         "support_filter_options",
         "support_lookup",
-        "support_aggregate",
-        "support_diagnose_error"
+        "support_aggregate"
       ],
       "excludeTools": [
         "list_queryable_models",

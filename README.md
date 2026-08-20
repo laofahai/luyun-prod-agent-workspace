@@ -64,7 +64,7 @@ ai_agent_support.investigate_token    = 与 QWEN_SERVER_TOKEN 一致
 ```
 
 wrapper 会在当前工作区运行 Qwen headless，并把生产只读规则、代码路径、OCA 路径和日志限制注入 prompt。
-默认会拒绝 root 运行，使用 `--approval-mode auto`、工具排除、PreToolUse hook、JSON 输出和运行预算。Qwen 只做只读取证；生产数据和日志只通过 MCP 白名单工具。
+默认会拒绝 root 运行，使用 `--approval-mode auto`、工具排除、PreToolUse hook、JSON 输出和运行预算。Qwen 只做只读取证；生产数据通过 MCP 白名单工具，生产日志通过 `logs/` 软链接目录只读检索。
 
 项目 MCP 配置写入本地 `.qwen/settings.json`，不提交。它只暴露 support 系列和基础身份工具，不暴露通用 `query/aggregate/describe_model`。
 
@@ -84,9 +84,9 @@ wrapper 会在当前工作区运行 Qwen headless，并把生产只读规则、�
 - 不读取生产 app 内的 `.agents/`、`.claude/`、`.codex/`、`.mcp.json`、`AGENTS.md`、`CLAUDE.md`、`superpowers/`。
 - 不执行 SQL。
 - 不执行 ORM 写入；没有 MCP 只读工具时，不让 Agent 自己拼 Odoo shell。
-- 不通过 shell 直接查数据库或整段日志。
+- 不通过 shell 直接查数据库，不整段 dump 日志。
 - 不重启容器、不更新模块、不修改文件。
-- 日志诊断走 MCP `support_diagnose_error`；不让 Agent 直接读日志文件。
+- 日志可以只读检索 `logs/` 软链接目录；只能按关键词、单据号、request id、时间窗口或最近行数取证，不输出日志原文、完整 traceback、密钥、手机号、VIN、金额。
 - Agent 可用生产调查账号查后台事实，但普通用户回复必须按用户可见性收敛。
 
 ## 推荐问题模板
