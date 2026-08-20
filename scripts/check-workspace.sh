@@ -43,6 +43,10 @@ else
   status=1
 fi
 
+if [[ -z "${QWEN_SERVER_TOKEN:-}" ]]; then
+  echo "提示: 未设置 QWEN_SERVER_TOKEN，qwen serve 无法作为 Odoo 调查后端运行"
+fi
+
 if [[ -f "$ROOT/.qwen/settings.json" ]]; then
   echo "OK: .qwen/settings.json 已配置"
   mode="$(stat -c '%a' "$ROOT/.qwen/settings.json" 2>/dev/null || stat -f '%Lp' "$ROOT/.qwen/settings.json")"

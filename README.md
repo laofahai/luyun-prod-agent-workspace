@@ -43,7 +43,21 @@ OCB/Odoo 核心源码通常在容器镜像内，宿主机没有路径时不挂 `
 
 ## Qwen Code 用法
 
-只读调查建议使用 wrapper：
+生产联机调查建议启动官方 `qwen serve`：
+
+```bash
+cd /opt/luyun/prod-agent-workspace
+QWEN_SERVER_TOKEN='***' ./scripts/start-qwen-serve.sh
+```
+
+Odoo 侧配置：
+
+```text
+ai_agent_support.investigate_endpoint = http://127.0.0.1:4170
+ai_agent_support.investigate_token    = 与 QWEN_SERVER_TOKEN 一致
+```
+
+手工只读调查仍可使用 headless wrapper：
 
 ```bash
 ./scripts/qwen-prod-investigate.sh "用户在配载计划页面点击确认时报错：请帮忙只读查原因"

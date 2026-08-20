@@ -3,8 +3,11 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 QUESTION="${1:-}"
+if [[ "$QUESTION" == "-" ]]; then
+  QUESTION="$(cat)"
+fi
 if [[ -z "$QUESTION" ]]; then
-  echo "用法: $0 '用户问题/页面/单据/报错/时间'" >&2
+  echo "用法: $0 '用户问题/页面/单据/报错/时间' 或 $0 - < prompt.txt" >&2
   exit 2
 fi
 if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
@@ -152,7 +155,7 @@ $QUESTION
 - 禁止直接读取日志文件；日志诊断只走 MCP。
 - 禁止使用通用 query/aggregate/describe_model；只能使用 support 系列 MCP 工具。
 
-请按顺序只读调查：先代码，再通过 MCP 白名单工具查数据，再通过 MCP 查必要日志。没有 MCP 工具时停止并说明缺口，不要自行构造 Odoo shell 或 SQL。输出必须区分：代码已确认、数据已确认、日志已确认、给用户的话、内部交接摘要、推测/未确认、建议下一步。
+请按顺序只读调查：先代码，再通过 support_list_data_capabilities 获取受控数据能力并用 MCP 白名单工具查数据，再通过 MCP 查必要日志。没有 MCP 工具时停止并说明缺口，不要自行构造 Odoo shell 或 SQL。输出必须区分：代码已确认、数据已确认、日志已确认、给用户的话、内部交接摘要、推测/未确认、建议下一步。
 
 最终输出硬要求：
 - 只输出一个 JSON 对象，不要输出 Markdown 包裹、解释性前后缀或代码块。

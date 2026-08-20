@@ -81,7 +81,7 @@ Agent 可以使用专用“生产调查只读账号”查询比提问用户更�
 - `list_accessible_business_units`
 - `list_skills`
 - `get_skill`
-- `support_search`
+- `support_list_data_capabilities`
 - `support_filter_options`
 - `support_lookup`
 - `support_aggregate`
@@ -115,7 +115,7 @@ rg "关键词" addons addons_third_party addons_oca docs \
 1. 先复述问题和已知上下文：页面、单据号、用户看到的报错、发生时间、业务单元。
 2. 查代码入口：优先搜索中文文案、按钮名、错误文案、字段 string、模型名、XML ID。
 3. 追链路：菜单/action/view/button -> Python 方法 -> 校验/权限/配置/状态流转 -> 测试或文档。
-4. 查数据：只用 MCP 白名单工具确认当前记录状态、关键字段、关联记录、用户权限和配置；没有 MCP 工具时停止并说明缺口。
+4. 查数据：先用 `support_list_data_capabilities` 获取受控能力，再用 MCP 白名单工具确认当前记录状态、关键字段、关联记录、用户权限和配置；没有 MCP 工具时停止并说明缺口。
 5. 查日志：仅在用户明确报错或有 request id/时间窗口时使用 MCP 日志诊断；日志时间为 UTC，回答时换算北京时间。
 6. 给证据编号：用户输入、代码、文档、MCP 数据、MCP 日志、策略分别登记为 `E1`、`E2`。
 7. 输出结论：只能基于证据编号生成 `summary`、`facts`、`next_actions`；普通用户最终只看 `user_reply.text`。
