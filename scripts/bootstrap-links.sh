@@ -11,7 +11,7 @@ fi
 : "${LUYUN_ADDONS_DIR:=/opt/luyun/prod/app/addons}"
 : "${LUYUN_THIRD_PARTY_DIR:=/opt/luyun/prod/app/addons_third_party}"
 : "${LUYUN_OCA_DIR:=/opt/luyun/addons_oca}"
-: "${LUYUN_OCB_DIR:=/opt/ocb}"
+: "${LUYUN_OCB_DIR:=}"
 : "${LUYUN_DOCS_DIR:=/opt/luyun/prod/app/docs}"
 : "${LUYUN_LOGS_DIR:=/opt/luyun/prod/logs}"
 
@@ -44,6 +44,10 @@ link_one app "$LUYUN_APP_DIR"
 link_one addons "$LUYUN_ADDONS_DIR"
 link_one addons_third_party "$LUYUN_THIRD_PARTY_DIR"
 link_one addons_oca "$LUYUN_OCA_DIR"
-link_one ocb "$LUYUN_OCB_DIR"
+if [[ -n "$LUYUN_OCB_DIR" ]]; then
+  link_one ocb "$LUYUN_OCB_DIR"
+else
+  echo "跳过: ocb 未配置宿主机路径"
+fi
 link_one docs "$LUYUN_DOCS_DIR"
 link_one logs "$LUYUN_LOGS_DIR"

@@ -26,9 +26,15 @@ check_link() {
   echo "OK: $name -> $target"
 }
 
-for name in app addons addons_third_party addons_oca ocb docs logs; do
+for name in app addons addons_third_party addons_oca docs logs; do
   check_link "$name"
 done
+
+if [[ -L "$ROOT/ocb" ]]; then
+  check_link ocb
+else
+  echo "OK: ocb 未配置宿主机软链接"
+fi
 
 if command -v qwen >/dev/null 2>&1; then
   echo "OK: qwen $(qwen --version 2>/dev/null | head -n 1)"

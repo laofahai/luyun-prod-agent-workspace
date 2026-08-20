@@ -35,12 +35,11 @@ app                 -> /opt/luyun/prod/app
 addons              -> /opt/luyun/prod/app/addons
 addons_third_party  -> /opt/luyun/prod/app/addons_third_party
 addons_oca          -> /opt/luyun/addons_oca
-ocb                 -> /opt/ocb
 docs                -> /opt/luyun/prod/app/docs
 logs                -> /opt/luyun/prod/logs
 ```
 
-如果服务器路径不同，复制 `config/paths.env.example` 为 `config/paths.env` 后调整。`config/paths.env` 不提交。
+OCB/Odoo 核心源码通常在容器镜像内，宿主机没有路径时不挂 `ocb`。如果服务器路径不同，复制 `config/paths.env.example` 为 `config/paths.env` 后调整。`config/paths.env` 不提交。
 
 ## Qwen Code 用法
 
@@ -50,7 +49,7 @@ logs                -> /opt/luyun/prod/logs
 ./scripts/qwen-prod-investigate.sh "用户在配载计划页面点击确认时报错：请帮忙只读查原因"
 ```
 
-wrapper 会在当前工作区运行 `qwen --bare -p`，并把生产只读规则、代码路径、OCA 路径、OCB 路径和日志限制注入 prompt。
+wrapper 会在当前工作区运行 `qwen --bare -p`，并把生产只读规则、代码路径、OCA 路径和日志限制注入 prompt。
 默认会拒绝 root 运行，使用 `--approval-mode plan`、JSON 输出和运行预算。Qwen 只做只读代码分析；生产数据和日志只通过 MCP 白名单工具。
 
 项目 MCP 配置写入本地 `.qwen/settings.json`，不提交。它只暴露 support 系列和基础身份工具，不暴露通用 `query/aggregate/describe_model`。

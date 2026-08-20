@@ -7,7 +7,8 @@
 - Agent 不以 `root` 运行。
 - Agent 运行用户无 `sudo`、无 `docker` 组、无生产目录写权限。
 - 工作目录不是 `/opt/luyun/prod`，只使用本仓库。
-- 源码、OCA、OCB、日志都通过软链接进入工作区。
+- 自研源码、第三方模块、OCA、文档、日志都通过软链接进入工作区。
+- Odoo/OCB 核心源码在生产镜像内，宿主机工作区默认不挂 `ocb/`。
 - `.env*`、key、token、session、history、cache、生产 app 内的 agent 配置均不得读取。
 - 数据查询优先 MCP 只读工具；没有 MCP 时停止，不让 Agent 自己拼 Odoo shell。
 - 日志只走 MCP `support_diagnose_error` 或后续受控日志 MCP，不让 Agent 直接读日志文件。

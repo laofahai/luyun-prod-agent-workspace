@@ -23,9 +23,10 @@
 - `addons/` -> `/opt/luyun/prod/app/addons`，自研模块。
 - `addons_third_party/` -> `/opt/luyun/prod/app/addons_third_party`，第三方模块。
 - `addons_oca/` -> `/opt/luyun/addons_oca`，OCA 模块集合。
-- `ocb/` -> `/opt/ocb`，Odoo/OCB 源码。
 - `docs/` -> `/opt/luyun/prod/app/docs`，生产随包文档。
 - `logs/` -> `/opt/luyun/prod/logs`，生产日志目录。
+
+Odoo/OCB 核心源码在生产镜像内，宿主机工作区默认不挂 `ocb/`。不要因为缺少 `ocb/` 软链接判定工作区异常。
 
 不要把 `/opt/luyun/prod` 作为 Agent 项目根目录，避免把 `data/`、`backups/` 等运行态目录纳入上下文。
 
@@ -96,7 +97,7 @@ Agent 可以使用专用“生产调查只读账号”查询比提问用户更�
 使用 `rg` / `find` 时必须排除敏感和运行态路径：
 
 ```bash
-rg "关键词" addons addons_third_party addons_oca ocb docs \
+rg "关键词" addons addons_third_party addons_oca docs \
   --glob '!**/.env*' \
   --glob '!**/.git/**' \
   --glob '!**/.agents/**' \

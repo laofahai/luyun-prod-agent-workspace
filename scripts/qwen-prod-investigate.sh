@@ -40,7 +40,7 @@ $QUESTION
 - 自研模块: ./addons
 - 第三方模块: ./addons_third_party
 - OCA 模块: ./addons_oca
-- Odoo/OCB 源码: ./ocb
+- Odoo/OCB 核心源码在生产镜像内，宿主机工作区默认不挂 ocb
 - 文档: ./docs
 - 生产数据和日志: 仅通过已配置的 Qwen MCP 白名单工具
 
