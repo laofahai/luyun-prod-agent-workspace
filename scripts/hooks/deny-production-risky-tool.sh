@@ -23,7 +23,7 @@ blocked_tool = re.compile(
     re.IGNORECASE,
 )
 blocked_input = re.compile(
-    r"(\.env|token|secret|authorization|cookie|session|history|/logs/|logs/odoo\.log|docker|odoo-bin|psql|env\.cr\.execute|\.sudo\(|\.write\(|\.create\(|\.unlink\(|\brm\b|\bmv\b|\bcp\b|chmod|chown)",
+    r"(\.qwen|settings\.json|\.env|token|secret|authorization|cookie|session|history|/logs/|logs/odoo\.log|docker|odoo-bin|psql|env\.cr\.execute|\.sudo\(|\.write\(|\.create\(|\.unlink\(|\brm\b|\bmv\b|\bcp\b|chmod|chown)",
     re.IGNORECASE,
 )
 

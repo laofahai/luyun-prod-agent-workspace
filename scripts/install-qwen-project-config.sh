@@ -31,6 +31,7 @@ with open(target, "w", encoding="utf-8") as handle:
     json.dump(data, handle, ensure_ascii=False, indent=2)
     handle.write("\n")
 PY
+chmod 600 "$ROOT/.qwen/settings.json"
 
 echo "已写入 $ROOT/.qwen/settings.json"
 echo "请确认该文件权限仅当前用户可读，并且不要提交 .qwen/。"

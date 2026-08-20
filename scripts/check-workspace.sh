@@ -45,6 +45,11 @@ fi
 
 if [[ -f "$ROOT/.qwen/settings.json" ]]; then
   echo "OK: .qwen/settings.json 已配置"
+  mode="$(stat -c '%a' "$ROOT/.qwen/settings.json" 2>/dev/null || stat -f '%Lp' "$ROOT/.qwen/settings.json")"
+  if [[ "$mode" != "600" ]]; then
+    echo ".qwen/settings.json 权限应为 600，当前为 $mode"
+    status=1
+  fi
   if grep -q "describe_model\\|\\\"query\\\"\\|\\\"aggregate\\\"\\|run_preset" "$ROOT/.qwen/settings.json"; then
     echo "提示: .qwen/settings.json 中出现被排除的技术工具名，应只出现在 excludeTools 中"
   fi
