@@ -115,7 +115,7 @@ QWEN_ARGS=(
   --approval-mode "$QWEN_APPROVAL_MODE" \
   --output-format json \
   --max-tool-calls 25 \
-  --max-session-turns 12 \
+  --max-session-turns "${QWEN_MAX_SESSION_TURNS:-6}" \
   --max-wall-time 10m \
 )
 for tool in "${QWEN_EXCLUDE_TOOLS[@]}"; do

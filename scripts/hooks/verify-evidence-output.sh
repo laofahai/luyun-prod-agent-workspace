@@ -117,7 +117,7 @@ if errors:
 else:
     print(json.dumps({
         "decision": "allow",
-        "reason": "evidence output contract passed",
         "continue": False,
+        "suppressOutput": True,
     }, ensure_ascii=False))
 PY
