@@ -153,9 +153,10 @@ $QUESTION
 - 禁止读取 .env、key、token、session、history、cache。
 - 禁止读取 app/.agents、app/.claude、app/.codex、app/.mcp.json、app/AGENTS.md、app/CLAUDE.md、app/superpowers。
 - 禁止整段 dump 日志；日志证据只能写短摘要，不得输出 token、secret、手机号、VIN、金额、完整 traceback。
-- 禁止使用通用 query/aggregate/describe_model；只能使用 support 系列 MCP 工具。
+- 禁止使用通用 query/aggregate/describe_model。
+- 查生产数据只能使用 support_readonly_query；该工具只允许 ORM 只读操作。
 
-请按顺序只读调查：先代码，再通过 support_list_data_capabilities 获取受控数据能力并用 MCP 白名单工具查数据，再按用户提供的报错、单据号、request id 或时间窗口只读检索 logs。没有 MCP 数据工具时停止并说明缺口，不要自行构造 Odoo shell 或 SQL。输出必须区分：代码已确认、数据已确认、日志已确认、给用户的话、内部交接摘要、推测/未确认、建议下一步。
+请按顺序只读调查：先代码，再通过 support_readonly_query 查询 Odoo 模型事实和配置中心，再按用户提供的报错、单据号、request id 或时间窗口只读检索 logs。没有 MCP 数据工具时停止并说明缺口，不要自行构造 Odoo shell、SQL 或 ORM 写操作。输出必须区分：代码已确认、数据已确认、日志已确认、给用户的话、内部交接摘要、推测/未确认、建议下一步。
 
 最终输出硬要求：
 - 只输出一个 JSON 对象，不要输出 Markdown 包裹、解释性前后缀或代码块。

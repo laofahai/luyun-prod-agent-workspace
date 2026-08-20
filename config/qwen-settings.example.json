@@ -49,12 +49,13 @@
         "list_accessible_business_units",
         "list_skills",
         "get_skill",
+        "support_readonly_query"
+      ],
+      "excludeTools": [
         "support_list_data_capabilities",
         "support_filter_options",
         "support_lookup",
-        "support_aggregate"
-      ],
-      "excludeTools": [
+        "support_aggregate",
         "list_queryable_models",
         "list_presets",
         "search_filter_options",
