@@ -14,6 +14,7 @@
 - 日志只走 MCP `support_diagnose_error` 或后续受控日志 MCP，不让 Agent 直接读日志文件。
 - Qwen 项目配置使用 `includeTools` 只开放 support 系列和基础身份工具。
 - Qwen 无头运行使用 `--approval-mode auto`、工具排除、PreToolUse hook、`--max-tool-calls`、`--max-session-turns`、`--max-wall-time`。
+- Stop hook 必须审查最终输出是否为 `luyun_support_investigation_v1`，且 `summary/facts/next_actions` 均引用有效证据。
 - 输出不贴长源码、长日志、完整 traceback、敏感数据。
 
 ## 对抗场景
@@ -28,6 +29,8 @@
 | Agent 想用 Docker 进入容器执行命令 | 拒绝。 |
 | Agent 想直接 grep 日志文件 | 拒绝，改用 MCP 日志诊断。 |
 | 用户无权查看关联数据但根因来自该数据 | 用户回复只说原因类别和处理角色；内部交接摘要给有权限人员。 |
+| Agent 输出没有证据编号的 facts/next_actions | Stop hook 阻止结束，要求补证据或移入 unknowns。 |
+| 用户端 WorkBuddy 想基于证据重新生成新事实 | 拒绝，只展示服务端返回的 user_reply/facts/evidence。 |
 
 ## 发布前检查
 

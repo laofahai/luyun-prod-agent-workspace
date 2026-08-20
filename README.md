@@ -54,6 +54,15 @@ wrapper 会在当前工作区运行 Qwen headless，并把生产只读规则、�
 
 项目 MCP 配置写入本地 `.qwen/settings.json`，不提交。它只暴露 support 系列和基础身份工具，不暴露通用 `query/aggregate/describe_model`。
 
+## 输出契约
+
+服务端 Agent 直接返回最终答复和证据包，用户端 WorkBuddy/ops-support skill 只负责展示和转交，不重新解释事实。最终输出必须遵守 [OUTPUT_CONTRACT.md](OUTPUT_CONTRACT.md)：
+
+- `schema` 固定为 `luyun_support_investigation_v1`。
+- `summary`、`facts`、`next_actions` 必须引用 `evidence` 编号。
+- 没有证据的内容只能进入 `unknowns`。
+- 普通用户答复使用 `user_reply.text`，内部信息使用 `internal_handoff`。
+
 ## 安全边界
 
 - 不把 `/opt/luyun/prod` 作为 Agent 工作目录。

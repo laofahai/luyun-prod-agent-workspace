@@ -152,5 +152,12 @@ $QUESTION
 - 禁止使用通用 query/aggregate/describe_model；只能使用 support 系列 MCP 工具。
 
 请按顺序只读调查：先代码，再通过 MCP 白名单工具查数据，再通过 MCP 查必要日志。没有 MCP 工具时停止并说明缺口，不要自行构造 Odoo shell 或 SQL。输出必须区分：代码已确认、数据已确认、日志已确认、给用户的话、内部交接摘要、推测/未确认、建议下一步。
+
+最终输出硬要求：
+- 只输出一个 JSON 对象，不要输出 Markdown 包裹、解释性前后缀或代码块。
+- JSON schema 必须是 "luyun_support_investigation_v1"。
+- summary、user_reply、facts、next_actions、internal_handoff 中的每条确定内容都必须引用 evidence 中存在的证据 id。
+- 没有证据的判断必须放 unknowns，不能放 summary/facts/next_actions。
+- 用户端 WorkBuddy 只展示和转交，不会替你补证据或重写事实；因此你必须在服务端完成最终答复和证据包。
 PROMPT
 )"

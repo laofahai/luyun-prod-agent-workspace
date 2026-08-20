@@ -16,6 +16,19 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$QWEN_PROJECT_DIR/scripts/hooks/verify-evidence-output.sh",
+            "name": "evidence-output-contract",
+            "description": "Require luyun_support_investigation_v1 JSON with evidence-backed facts and actions",
+            "timeout": 10000
+          }
+        ]
+      }
     ]
   },
   "mcp": {
