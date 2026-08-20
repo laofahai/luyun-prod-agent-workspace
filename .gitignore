@@ -1,0 +1,13 @@
+.DS_Store
+config/paths.env
+app
+addons
+addons_third_party
+addons_oca
+ocb
+docs
+logs
+*.log
+.cache/
+.qwen/
+.sessions/
